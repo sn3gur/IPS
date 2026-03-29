@@ -21,7 +21,7 @@ app.use(express.json());
 const dbPromise = mongoose.connect(process.env.MONGO_URI);
 
 dbPromise.then(function(){
-    console.log('Connected to MongoDB');
+    console.log('Database Connected to MongoDB');
 });
 
 dbPromise.catch(function(err){
@@ -30,14 +30,15 @@ dbPromise.catch(function(err){
 
 /* API routes */
 // listens for requests at 'http://localhost:5000/api/health'
-app.get('/api/health', function(req, res) {
+// listens for requests at 'http://localhost:5001'
+app.get('/', function(req, res) {
     res.status(200).json({
         status: 'Server is alive',
     });
 });
 
 /* start the server */
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 //open port for incoming requests
 app.listen(PORT, function() {
     console.log(`Server is running on port ` + PORT);
