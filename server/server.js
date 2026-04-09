@@ -1,22 +1,40 @@
-/* This file sets up the Express server, connects to MongoDB, and defines the API routes. */
+
+/* 
+1. opens the physical network port (5000) to receive traffic
+2. turns on the security guards and translators for incoming traffic - middleware
+3. connects the application to the MongoDB database
+ */
 
 // loads the secret variables from the .env file
 require('dotenv').config();
 
+// the key api to connect to finnhub
+console.log("API KEY finnhub:", process.env.FINNHUB_API_KEY);
+
 const express = require('express'); // web framework (handles HTTP requests)
-const cors = require('cors');   // allows React to connect
-const connectDB = require('./config/db');
+const mongoose = require('mongoose'); // translates JS into MongoDB queries
+const cors = require('cors');
+const stockRoutes = require("./routes/stocks")   // allows React to connect
 
 const app = express();
-connectDB();
+
 
 /* middleware */
-app.use(cors()); //communtication between React and Express
-app.use(express.json()); //allows server to parse JSON bodies in requests
+app.use(cors());
+app.use(express.json());
 
-// register API Routes by linking URL paths to route files
-app.use('/api/users', require('./routes/authRoutes'));
-app.use('/api/trades', require('./routes/tradeRoutes'));
+app.use("/api/stocks", stockRoutes);
+
+/* database connection */
+const dbPromise = mongoose.connect(process.env.MONGO_URI);
+
+dbPromise.then(function(){
+    console.log('Database Connected to MongoDB');
+});
+
+dbPromise.catch(function(err){
+    console.log('MongoDB error connection: ', err.message);
+});
 
 // Health check route to verify server is alive
 app.get('/', (req, res) => {
@@ -27,4 +45,5 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
+    console.log(`Api is Running Right on http://localhost:${PORT}/api/stocks/AAPL`)
 });
