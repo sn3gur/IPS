@@ -7,15 +7,21 @@
 // loads the secret variables from the .env file
 require('dotenv').config();
 
+console.log("API KEY:", process.env.ALPHA_VANTAGE_API_KEY);
+console.log("API KEY finnhub:", process.env.FINNHUB_API_KEY);
+
 const express = require('express'); // web framework (handles HTTP requests)
 const mongoose = require('mongoose'); // translates JS into MongoDB queries
-const cors = require('cors');   // allows React to connect
+const cors = require('cors');
+const stockRoutes = require("./routes/stocks")   // allows React to connect
 
 const app = express();
 
 /* middleware */
 app.use(cors());
 app.use(express.json());
+
+app.use("/api/stocks", stockRoutes);
 
 /* database connection */
 const dbPromise = mongoose.connect(process.env.MONGO_URI);
@@ -41,5 +47,5 @@ app.get('/', function(req, res) {
 const PORT = process.env.PORT || 5001;
 //open port for incoming requests
 app.listen(PORT, function() {
-    console.log(`Server is running on port ` + PORT);
+    console.log(`Server is running on port http://localhost:` + PORT);
 });
