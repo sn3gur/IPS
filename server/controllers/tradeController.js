@@ -1,6 +1,7 @@
 /* handles stock buying and selling operations */
 const User = require('../models/User');
 const Transaction = require('../models/Transaction');
+const mongoose = require('mongoose');
 
 module.exports = {
     buyStock: async function(req, res) {
@@ -39,7 +40,7 @@ module.exports = {
 
             //record the transaction
             const newTransaction = new Transaction({
-                userId: userId._id,
+                userId: req.user.id,
                 ticker: ticker,
                 type: 'BUY',
                 quantity: quantity,
@@ -56,6 +57,40 @@ module.exports = {
         } catch (err) {
             console.error('Error processing buy order:', err);
             res.status(500).json({ message: 'Server error' });
+        }
+    },
+
+    getPortfolio: async function(req, res) {
+        try {
+            const userId = req.user.id;
+            //aggregate transactions to calculate current holdings
+            const portfolio = await Transaction.aggregate([
+                {
+                    $match: { userId: new mongoose.Types.ObjectId(req.user.id) } //checks transactions of current user
+                },
+                //groups by ticker and sums shares
+                {
+                    $group: {
+                        _id: '$ticker',
+                        totalShares: { $sum: {
+                            $cond: [
+                                { $eq: ['$type', 'BUY'] }, //if it's a buy, add quantity
+                                '$quantity',
+                                { $multiply: ['$quantity', -1] } //if it's a sell, subtract quantity
+                             ] } 
+                        } 
+                    }
+                },
+                {
+                    $match: { totalShares: { $gt: 0 } } //only include positive shares
+                }
+
+            ]);
+            //if no trades, return empty array
+            res.status(200).json({ portfolio: portfolio});
+        }catch (err) {
+            console.error('Error fetching portfolio:', err);
+            res.status(500).json({ message: 'Server error compiling portfolio' });
         }
     }
 };
