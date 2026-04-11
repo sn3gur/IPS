@@ -30,6 +30,15 @@ app.use('/users', usersRouter);
 app.use(express.json());
 
 
+//start listening for requests
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+    console.log(`Server listening on http://localhost:${PORT}`);
+});
+
+app.post("/post", async(req,res)=>{
+    console.log("Something post");
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -2,7 +2,7 @@
 "use client";
 import {useState} from "react";
 
-export default function register(){
+export default function Register(){
     // Form Fields Email and Password for now
     const [form, setForm] = useState({
         email: "",
@@ -21,23 +21,37 @@ export default function register(){
     };
 
     // Event handler for subbmiting form
-    const handleAdd = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Sends form to api
-        const res = await fetch("api/routes/register",{
-            method: "POST",
-            body: JSON.stringify(form),
-        });
-        // Awaits for a response from api
-        const data = await res.json();
-
-        // Handles response 
-        if (res.ok) {
-            setMessage("User registered successfully!");
-            setForm({ email: "", password: "" });
-        } 
+        if (!form.email){
+            setMessage("Missing email");
+        }
+        else if (!form.password){
+            setMessage("Missing password");
+        }
         else {
+            setMessage("");
+        }
+        try {
+            setMessage("a");
+            // Sends form to api
+            const res = await fetch("api/routes/register",{
+                method: "POST",
+                body: JSON.stringify(form),
+            });
+            setMessage("b");
+            // Awaits for a response from api
+            const data = await res.json();
+            setMessage("c");
+            // Handles response 
+            if (res.ok) {
+                setMessage("User registered successfully!");
+                setForm({ email: "", password: "" });
+            }
+            setMessage("d"); 
+        }
+        catch {
             // Sets the response message to show up if failed to register user
             setMessage(data.message);
 
@@ -45,9 +59,9 @@ export default function register(){
             setMessage("Something's wrong");
         }
     }
-    // How to form looks
+    // How the form looks
     return (
-            <form onSubmit={handleAdd}>
+            <form onSubmit={handleSubmit}>
                 <h1>Register as a new user</h1>
                 <input 
                     type="email"
@@ -64,8 +78,9 @@ export default function register(){
                     onChange={handleChange}
                     placeholder="Set Password"
                 />
+                <br/>
                 <button type="submit">Register</button>
-                <p>{message}</p>
+                <p>Info: {message}</p>
             </form>
     );
 }
