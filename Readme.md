@@ -27,16 +27,19 @@ Since this stage focuses on the backend functionality, we have provided ways to 
 ## **Team Contributions & Division of Labour**
 We divided the work based on the MERN stack architecture. Overall, the work was split fairly evenly, with a focus on cross-testing each other's code.
 
-* **Andrii (Database/Logic):** * Set up the initial environment, Express server, and MongoDB connection.
+* **Andrii (Database/Logic):** 
+  * Set up the initial environment, Express server, and MongoDB connection.
   * Built the secure authentication system.
   * Wrote core `buyStock` logic and the portfolio aggregation pipeline.
 
-* **Bruno (Backend & Data):** * Integrated the external stock API (Finnhub) using Axios.
+* **Bruno (Backend & Data):** 
+  * Integrated the external stock API (Finnhub) using Axios.
   * Developed the `sellStock` logic and transaction validation.
   * Created the "reset portfolio" `DELETE` route for CRUD compliance.
   * Built checks to handle missing symbols or API rate-limiting errors.
 
-* **Eric & Manu (Frontend & Integration):** * Developed the React interface and state management.
+* **Eric & Manu (Frontend & Integration):** 
+  * Developed the React interface and state management.
   * Connected the frontend forms to the backend API endpoints.
   * Implemented the TradingView widget for visual market data.
 
