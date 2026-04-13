@@ -1,6 +1,6 @@
 # Intelligent Portfolio Simulator (IPS)
 
-**Team Members:** Andrii Snihuriak, Bruno Kennedy-Lisboa, Erik Resman, Manuel Weiskopf  
+**Team Members:** Andrii Snihuriak - 3135747, Bruno Kennedy-Lisboa - 3141551, Erik Resman - 3144841, Manuel Weiskopf - 3196883   
 **Live API URL:** [https://ips-lbcs.onrender.com](https://ips-lbcs.onrender.com)  
 
 ---
