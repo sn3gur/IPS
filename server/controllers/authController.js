@@ -8,6 +8,11 @@ module.exports = {
     // receives email, password, validates, encrypts, and saves to MongoDB
     registerUser: async function(req, res) {
         try {
+            //if body missing, stop 
+            if (!req.body || !req.body.email || !req.body.password) {
+            return res.status(400).json({ message: 'Please provide email and password' });
+            }
+
             //takes data from frontend request body
             const email = req.body.email;
             const password = req.body.password;
