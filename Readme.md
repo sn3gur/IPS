@@ -27,7 +27,7 @@ Since this stage focuses on the backend functionality, we have provided ways to 
 ## **Team Contributions & Division of Labour**
 We divided the work based on the MERN stack architecture. Overall, the work was split fairly evenly, with a focus on cross-testing each other's code.
 
-* **Andrii (Team Lead):** * Set up the initial environment, Express server, and MongoDB connection.
+* **Andrii (Database/Logic):** * Set up the initial environment, Express server, and MongoDB connection.
   * Built the secure authentication system.
   * Wrote core `buyStock` logic and the portfolio aggregation pipeline.
 
