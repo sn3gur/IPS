@@ -1,0 +1,15 @@
+meta {
+  name: reset
+  type: http
+  seq: 1
+}
+
+delete {
+  url: http://localhost:5050/api/trades/reset
+  body: none
+  auth: none
+}
+
+headers {
+  x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZGQ1YjE2NGQxZWQ3NTZkZmZlZDJhMSIsImlhdCI6MTc3NjExNDQ4NywiZXhwIjoxNzc2MTIxNjg3fQ.n2ny7yTe1NCPHTlfFbNzzdq6dLxQx-8vC97kbVLAyP4
+}
