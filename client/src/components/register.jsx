@@ -36,7 +36,7 @@ export default function Register(){
         try {
             setMessage("a");
             // Sends form to api
-            const res = await fetch("api/routes/register",{
+            const res = await fetch("server/routes/register",{
                 method: "POST",
                 body: JSON.stringify(form),
             });
