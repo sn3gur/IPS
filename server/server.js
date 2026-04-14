@@ -17,6 +17,8 @@ app.use(express.json()); //allows server to parse JSON bodies in requests
 // register API Routes by linking URL paths to route files
 app.use('/api/users', require('./routes/authRoutes'));
 app.use('/api/trades', require('./routes/tradeRoutes'));
+app.use('/api/user', require('./routes/authRoutes'));
+
 
 // Health check route to verify server is alive
 app.get('/', (req, res) => {

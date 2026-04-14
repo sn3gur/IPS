@@ -1,5 +1,3 @@
-
-"use client";
 import {useState} from "react";
 
 export default function Register(){
@@ -25,31 +23,34 @@ export default function Register(){
         event.preventDefault();
 
         if (!form.email){
-            setMessage("Missing email");
+            return setMessage("Missing email");
         }
         else if (!form.password){
-            setMessage("Missing password");
+            return setMessage("Missing password");
         }
         else {
             setMessage("");
         }
         try {
-            setMessage("a");
-            // Sends form to api
-            const res = await fetch("server/routes/register",{
+            setMessage("before fetch");
+            // Sends form to server
+            const res = await fetch("http://localhost:5050/api/user/register",{
                 method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
                 body: JSON.stringify(form),
             });
-            setMessage("b");
-            // Awaits for a response from api
+            setMessage("before data");
+            // Awaits for a response from server
             const data = await res.json();
-            setMessage("c");
+            setMessage("before handle");
             // Handles response 
             if (res.ok) {
                 setMessage("User registered successfully!");
                 setForm({ email: "", password: "" });
             }
-            setMessage("d"); 
+            setMessage("complete"); 
         }
         catch {
             // Sets the response message to show up if failed to register user
