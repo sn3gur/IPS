@@ -2,11 +2,17 @@
 
 const User = require('../models/User'); 
 const bcrypt = require('bcrypt'); 
+const jwt = require('jsonwebtoken');
 
 module.exports = {
-    // receives email/password, validates, encrypts, and saves to MongoDB
+    // receives email, password, validates, encrypts, and saves to MongoDB
     registerUser: async function(req, res) {
         try {
+            //if body missing, stop 
+            if (!req.body || !req.body.email || !req.body.password) {
+            return res.status(400).json({ message: 'Please provide email and password' });
+            }
+
             //takes data from frontend request body
             const email = req.body.email;
             const password = req.body.password;
@@ -24,7 +30,7 @@ module.exports = {
             //saves new user object to database
             const newUser = new User({
                 email: email,
-                password: hashedPassword,
+                passwordHash: hashedPassword,
             });
             await newUser.save();
 
@@ -37,5 +43,43 @@ module.exports = {
             console.error('Error registering user: ', err);
             res.status(500).json({ message: 'Server error' , error: err.message});
         }
+    },
+
+    // receives email, password, validates, and returns JWT token if successful
+    loginUser: async function(req, res) {
+        try {
+            const email = req.body.email;
+            const password = req.body.password;
+
+            //checks if user exists
+            const user = await User.findOne({ email: email });
+            if (!user) {
+                return res.status(400).json({ message: 'Invalid credentials' });
+            }
+
+            //compares password with hashed password in database
+            const isMatch = await bcrypt.compare(password, user.passwordHash);
+            if (!isMatch) {
+                return res.status(400).json({ message: 'Invalid credentials' });
+            }
+
+            //creates jwt wristband
+            const payload = {
+                id: user._id,
+            };
+
+            //sign the token with secret and set expiration
+            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' });
+
+            //return token to clien
+            res.status(200).json({
+                message: 'Login successful',
+                token: token,
+            });
+    
+        }catch (err) {
+            console.error('Error logging in user: ', err);
+            res.status(500).json({ message: 'Server error', error: err.message });
+        }
     }
-};
+}
