@@ -2,12 +2,14 @@
 
 const User = require('../models/User'); 
 const bcrypt = require('bcrypt'); 
-const jwt = require('jsonwebtoken');
 
 module.exports = {
     // receives email, password, validates, encrypts, and saves to MongoDB
     registerUser: async function(req, res) {
         try {
+            if (!req.body || !req.body.email || !req.body.password) {
+                return res.status(400).json({ message: 'Please provide both email and password' });
+            }
             //takes data from frontend request body
             const email = req.body.email;
             const password = req.body.password;
@@ -29,6 +31,8 @@ module.exports = {
             });
             await newUser.save();
 
+            req.session.userId = newUser._id; // store user ID in session for authentication
+
             //responds to frontend with success or error message 
             res.status(201).json({ 
                 message: 'User registered successfully',
@@ -43,6 +47,9 @@ module.exports = {
     // receives email, password, validates, and returns JWT token if successful
     loginUser: async function(req, res) {
         try {
+            if (!req.body || !req.body.email || !req.body.password) {
+                return res.status(400).json({ message: 'Please provide both email and password' });
+            }
             const email = req.body.email;
             const password = req.body.password;
 
@@ -58,23 +65,27 @@ module.exports = {
                 return res.status(400).json({ message: 'Invalid credentials' });
             }
 
-            //creates jwt wristband
-            const payload = {
-                id: user._id,
-            };
-
-            //sign the token with secret and set expiration
-            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' });
+            req.session.userId = user._id; // generates cookie with user ID for session management
 
             //return token to clien
             res.status(200).json({
                 message: 'Login successful',
-                token: token,
             });
     
         }catch (err) {
             console.error('Error logging in user: ', err);
             res.status(500).json({ message: 'Server error', error: err.message });
         }
+    },
+
+    logoutUser: async function(req, res) {
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Error destroying session:', err);
+                return res.status(500).json({ message: 'Could not log out' });
+            }
+            res.clearCookie('connect.sid'); // clears the session cookie
+            res.status(200).json({ message: 'Logout successful' });
+        });
     }
-}
+};
