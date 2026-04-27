@@ -29,7 +29,7 @@ function DashboardPage() {
           <button type="submit">Search</button>
         </form>
 
-        {/* Dashboard mit Switch Mode */}
+        {/* Dashboard with Switch Mode */}
         <section className="dashboard debug-green">
           <button>Switch mode</button>
           <div>Dashboard (TradingView Widget )</div>
