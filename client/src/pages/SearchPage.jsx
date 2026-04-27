@@ -47,7 +47,7 @@ function SearchPage() {
         <section className="search-results debug-green">
           {/* example-result to test navigation */}
           <div onClick={() => handleResultClick('AAPL')}>
-            AAPL — Apple Inc. (klick zum Testen)
+            AAPL — Apple Inc. (click to test)
           </div>
         </section>
       </main>
