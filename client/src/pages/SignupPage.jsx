@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import '../styles/main.scss'
 
 function SignupPage() {
   const navigate = useNavigate()

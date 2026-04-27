@@ -1,0 +1,22 @@
+// Consts
+$primary-color: #ac47e6;
+$secondary-color: #00bfe1;
+$text-color: #000000;
+
+@mixin lightTheme {
+    background-color: white;
+    color: black;
+}
+@mixin darkTheme {
+    background-color: black;
+    color: white;
+}
+
+body {
+    @include darkTheme;
+}
+
+div {
+    border-radius: 20px solid $primary-color;
+    padding: 10px;
+}
