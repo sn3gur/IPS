@@ -17,6 +17,19 @@ body {
 }
 
 div {
-    border-radius: 20px solid $primary-color;
+    @include lightTheme;
+    border: 2px solid $secondary-color;
+    border-radius: 6px;
     padding: 10px;
+
+    .page {
+        height: 100rem;
+        background-color: #c418d1
+    }
+}
+
+form {
+    @include lightTheme;
+    border: 2px solid $secondary-color;
+    border-radius: 6px;
 }

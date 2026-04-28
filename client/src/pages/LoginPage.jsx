@@ -11,7 +11,7 @@ function LoginPage() {
   }
 
   return (
-    <div className="page debug">
+    <div className="page debug" class="page">
       <Navbar variant="brand" />
 
       <main className="page-content debug-blue">
