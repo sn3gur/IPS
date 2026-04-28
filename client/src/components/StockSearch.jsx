@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { getStockBySymbol } from "../api/stockApi";
-import '../App.css'
 
 export default function StockSearch() {
   const [symbol, setSymbol] = useState("");
