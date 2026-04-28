@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import Register from './Register'
 
 function SignupPage() {
   const navigate = useNavigate()
@@ -16,9 +17,11 @@ function SignupPage() {
 
       <main className="page-content debug-blue">
         <h1>IPS</h1>
+        
 
         <form onSubmit={handleSignup} className="debug-green">
           {/* TODO input fields */}
+          <Register />
           <button type="submit">Confirm</button>
         </form>
       </main>
