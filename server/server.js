@@ -50,9 +50,7 @@ app.get('/', (req, res) => {
 });
 
 /* database connection */
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('Database Connected to MongoDB'))
-    .catch(err => console.log('MongoDB connection error: ', err.message));
+connectDB();
 
 
 /* start server */
