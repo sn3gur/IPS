@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import '../styles/main.scss'
+import TradeView from '../components/tradeview/TradingViewWidget'
+import StockSearch from '../components/StockSearch'
 
 function DashboardPage() {
   const navigate = useNavigate()
@@ -29,11 +31,16 @@ function DashboardPage() {
           />
           <button type="submit">Search</button>
         </form>
+        <StockSearch/>
 
         {/* Dashboard with Switch Mode */}
         <section className="dashboard debug-green">
           <button>Switch mode</button>
+
+
           <div>Dashboard (TradingView Widget )</div>
+          <TradeView/>
+          
         </section>
 
         {/* Transaction History */}

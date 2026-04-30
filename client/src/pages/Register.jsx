@@ -1,9 +1,8 @@
 import {useState} from "react";
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import Register from './Register'
+import { useNavigate } from 'react-router-dom'
 
-export default function SignupPage(){
+
+export default function Register(){
     // Form Fields Email and Password for now
     const [form, setForm] = useState({
         email: "",
@@ -35,9 +34,9 @@ export default function SignupPage(){
             setMessage("");
         }
         try {
-            setMessage("before fetch");
+            setMessage("Registering");
             // Sends form to server
-            const res = await fetch("http://localhost:5050/api/user/register",{
+            const res = await fetch("/api/users/register",{
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json",
@@ -65,29 +64,26 @@ export default function SignupPage(){
     }
     // How the form looks
     return (
-      <div class="page">
-        <Navbar variant="back" balance={100000} />
-        <form onSubmit={handleSubmit} class="sign-up">
-            <h1>Register as a new user</h1>
-            <input 
-                type="email"
-                name="email"
-                value={form.email} 
-                onChange={handleChange} 
-                placeholder="Set Email" 
-            />
-            <br />
-            <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                placeholder="Set Password"
-            />
-            <br/>
-            <button type="submit">Register</button>
-            <p>Info: {message}</p>
-        </form>
-      </div>
+            <form onSubmit={handleSubmit}>
+                <h1>Register as a new user</h1>
+                <input 
+                    type="email"
+                    name="email"
+                    value={form.email} 
+                    onChange={handleChange} 
+                    placeholder="Set Email" 
+                />
+                <br />
+                <input
+                    type="password"
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    placeholder="Set Password"
+                />
+                <br/>
+                <button type="submit">Register</button>
+                <p>Info: {message}</p>
+            </form>
     );
 }

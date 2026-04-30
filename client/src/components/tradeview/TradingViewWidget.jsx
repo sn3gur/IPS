@@ -6,6 +6,11 @@ function TradingViewWidget() {
 
   useEffect(
     () => {
+      const widgetContainer = container.current;
+      if (!widgetContainer) return;
+
+      widgetContainer.replaceChildren();
+
       const script = document.createElement("script");
       script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
       script.type = "text/javascript";
@@ -34,7 +39,11 @@ function TradingViewWidget() {
           "studies": [],
           "autosize": false
         }`;
-      container.current.appendChild(script);
+      widgetContainer.appendChild(script);
+
+      return () => {
+        widgetContainer.replaceChildren();
+      };
     },
     []
   );
