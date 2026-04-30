@@ -34,7 +34,7 @@ function SearchPage() {
       <Navbar variant="back" balance={100000} />
 
       <main className="page-content debug-blue">
-        <form onSubmit={handleSearchSubmit} className="debug-green">
+        <form onSubmit={handleSearchSubmit} class="search">
           <input
             type="text"
             placeholder="Asset Search"

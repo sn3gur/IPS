@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import '../styles/main.scss'
 import TradeView from '../components/tradeview/TradingViewWidget'
 import StockSearch from '../components/StockSearch'
 
@@ -21,6 +22,15 @@ function DashboardPage() {
 
       <main className="page-content debug-blue">
         {/* Asset Search -> Form with input*/}
+        <form onSubmit={handleSearchSubmit} className="search">
+          <input
+            type="text"
+            placeholder="Asset Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button type="submit">Search</button>
+        </form>
         <StockSearch/>
 
         {/* Dashboard with Switch Mode */}

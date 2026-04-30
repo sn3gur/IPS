@@ -4,6 +4,7 @@ import SignupPage from './pages/SignupPage'
 import DashboardPage from './pages/DashboardPage'
 import SearchPage from './pages/SearchPage'
 import AssetPage from './pages/AssetPage'
+import './styles/main.scss';
 
 function App() {
   return (
