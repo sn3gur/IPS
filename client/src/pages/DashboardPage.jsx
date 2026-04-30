@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
-import '../styles/main.scss'
+import TransactionHistory from '../components/TransactionHistory'
 import TradeView from '../components/tradeview/TradingViewWidget'
-import StockSearch from '../components/StockSearch'
 
 function DashboardPage() {
   const navigate = useNavigate()
@@ -12,41 +11,43 @@ function DashboardPage() {
   const handleSearchSubmit = (e) => {
     e.preventDefault()
     const query = searchQuery.trim()
-    if (!query) return  // ignore empty search
+    if (!query) return
     navigate(`/search?q=${encodeURIComponent(query)}`)
   }
 
   return (
-    <div className="page debug">
+    <div className="dashboard-page">
       <Navbar variant="main" />
 
-      <main className="page-content debug-blue">
-        {/* Asset Search -> Form with input*/}
-        <form onSubmit={handleSearchSubmit} className="search">
+      <main className="dashboard-content">
+        {/* Search Bar */}
+        <form onSubmit={handleSearchSubmit} className="search-bar">
           <input
             type="text"
-            placeholder="Asset Search"
+            placeholder="Search assets..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            className="search-bar-input"
           />
-          <button type="submit">Search</button>
+          <button type="submit" className="search-bar-button">
+            Search
+          </button>
         </form>
-        <StockSearch/>
 
-        {/* Dashboard with Switch Mode */}
-        <section className="dashboard debug-green">
-          <button>Switch mode</button>
+        {/* Dashboard Section */}
+        <section className="dashboard-section">
+          <div className="dashboard-section-header">
+            <h2 className="dashboard-section-title">Dashboard</h2>
+            <button className="dashboard-switch-mode">Switch mode</button>
+          </div>
 
-
-          <div>Dashboard (TradingView Widget )</div>
-          <TradeView/>
-          
+          <div className="dashboard-widget">
+            <TradeView />
+          </div>
         </section>
 
-        {/* Transaction History */}
-        <section className="transaction-history debug-green">
-          Transaction History
-        </section>
+        {/* Transaction History — data integration pending */}
+        <TransactionHistory />
       </main>
     </div>
   )

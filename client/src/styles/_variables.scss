@@ -1,0 +1,78 @@
+// =============================================
+//  IPS Design Tokens
+//  All global values live here.
+// =============================================
+
+
+// ---------- COLORS ----------
+
+// Backgrounds
+$color-bg:            #0A0E1A;  // App background (very dark blue-black)
+$color-surface:       #131826;  // Cards, modals, panels
+$color-surface-hover: #1C2333;  
+$color-border:        #232A3D;  
+
+// Text
+$color-text:           #F5F5F5;  // Main text
+$color-text-secondary: #9CA3AF;  // Labels, captions
+$color-text-muted:     #6B7280;  // Placeholders, disabled
+
+// Highlight Colors
+$color-profit:      #00C853;  
+$color-loss:        #FF3B3B;  
+$color-brand:       #3B82F6;  // Primary buttons, links
+$color-brand-hover: #2563EB;  
+
+
+// ---------- SPACING ----------
+
+
+$space-1:   4px;   
+$space-1-5: 6px;   // needed half-step
+$space-2:   8px;
+$space-3:   12px;
+$space-4:   16px;
+$space-6:   24px;
+$space-8:   32px;
+$space-12:  48px;
+$space-16:  64px;
+
+
+// ---------- TYPOGRAPHY ----------
+
+$font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+$font-xs:   12px;   // captions, fine print
+$font-sm:   13px;   // small labels (form labels, footnotes)
+$font-base: 14px;   // body text, inputs, buttons
+$font-md:   16px;   // larger body / paragraphs
+$font-lg:   18px;   // sub-headings
+$font-xl:   24px;   // section titles
+$font-2xl:  32px;   // page titles
+$font-3xl:  48px;   // hero numbers (e.g. balance display)
+
+// Font Weights
+$weight-regular: 400;
+$weight-medium:  500;
+$weight-semibold: 600;  
+
+// ---------- BORDERS / RADIUS ----------
+
+$radius-sm:   4px;
+$radius-base: 8px;     // standard for most elements
+$radius-lg:   12px;
+$radius-full: 9999px;  // circles
+
+
+// ---------- BREAKPOINTS ----------
+
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+
+// ---------- TRANSITIONS ----------
+
+$transition-fast: 150ms ease;
+$transition-base: 250ms ease;

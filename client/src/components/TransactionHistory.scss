@@ -1,0 +1,21 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+
+.transaction-history {
+  @include card;
+}
+
+.transaction-history-title {
+  font-size: $font-lg;
+  font-weight: $weight-medium;
+  margin: 0 0 $space-3 0;
+}
+
+.transaction-history-empty {
+  color: $color-text-secondary;
+  font-size: $font-base;
+  text-align: center;
+  margin: 0;
+  padding: $space-6 0;
+}

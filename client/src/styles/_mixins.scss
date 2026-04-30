@@ -1,0 +1,119 @@
+@use 'variables' as *;
+
+// =============================================
+//  Mixins — wiederverwendbare Style-Patterns
+// =============================================
+
+
+// ---------- RESPONSIVE BREAKPOINTS ----------
+// Mobile First: Standard-Styles gelten für Mobile,
+// diese Mixins überschreiben für größere Screens.
+//
+// Verwendung:
+//   .my-class {
+//     padding: $space-2;       // Mobile
+//     @include md {
+//       padding: $space-4;     // ab Tablet
+//     }
+//   }
+
+@mixin sm {
+  @media (min-width: $breakpoint-sm) { @content; }
+}
+
+@mixin md {
+  @media (min-width: $breakpoint-md) { @content; }
+}
+
+@mixin lg {
+  @media (min-width: $breakpoint-lg) { @content; }
+}
+
+@mixin xl {
+  @media (min-width: $breakpoint-xl) { @content; }
+}
+
+
+// ---------- LAYOUT ----------
+
+// Zentriert Inhalte horizontal + vertikal
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Flexbox mit Space-Between (z.B. für Navbar)
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Container mit max-width für Desktop
+@mixin container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $space-4;
+
+  @include md {
+    padding: 0 $space-6;
+  }
+}
+
+
+// ---------- COMPONENTS ----------
+
+// Standard-Card-Styling
+@mixin card {
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-base;
+  padding: $space-4;
+}
+
+// Standard-Input
+@mixin input-base {
+  width: 100%;
+  padding: $space-3 $space-4;
+  background-color: $color-surface;
+  color: $color-text;
+  border: 1px solid $color-border;
+  border-radius: $radius-base;
+  font-family: $font-family;
+  font-size: $font-base;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-brand;
+  }
+
+  &::placeholder {
+    color: $color-text-muted;
+  }
+}
+
+// Standard-Button (Primary)
+@mixin button-primary {
+  padding: $space-3 $space-6;
+  background-color: $color-brand;
+  color: $color-text;
+  border: none;
+  border-radius: $radius-base;
+  font-family: $font-family;
+  font-size: $font-base;
+  font-weight: $weight-medium;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $color-brand-hover;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

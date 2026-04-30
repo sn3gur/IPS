@@ -1,93 +1,96 @@
-import {useState} from "react";
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import Register from './Register'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import logo from '../assets/logo-ips.png'
 
-export default function SignupPage(){
-    // Form Fields Email and Password for now
-    const [form, setForm] = useState({
-        email: "",
-        password: "",
-    });
+function SignupPage() {
+  const navigate = useNavigate()
 
-    // Message for confirmation
-    const [message, setMessage] = useState("");
+  // Form state
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+  })
+  const [message, setMessage] = useState('')
 
-    // Event handler for form value changes
-    const handleChange = (event) => {
-        setForm({
-            ...form,
-            [event.target.name]: event.target.value,
-        });
-    };
+  // Update form field on input change
+  const handleChange = (event) => {
+    setForm({
+      ...form,
+      [event.target.name]: event.target.value,
+    })
+  }
 
-    // Event handler for subbmiting form
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+  // Submit registration
+  const handleSubmit = async (event) => {
+    event.preventDefault()
 
-        if (!form.email){
-            return setMessage("Missing email");
-        }
-        else if (!form.password){
-            return setMessage("Missing password");
-        }
-        else {
-            setMessage("");
-        }
-        try {
-            setMessage("before fetch");
-            // Sends form to server
-            const res = await fetch("http://localhost:5050/api/user/register",{
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json",
-                },
-                body: JSON.stringify(form),
-            });
-            setMessage("before data");
-            // Awaits for a response from server
-            const data = await res.json();
-            setMessage("before handle");
-            // Handles response 
-            if (res.ok) {
-                setMessage("User registered successfully!");
-                setForm({ email: "", password: "" });
-            }
-            setMessage("complete"); 
-        }
-        catch {
-            // Sets the response message to show up if failed to register user
-            setMessage(data.message);
+    // Basic validation
+    if (!form.email) return setMessage('Missing email')
+    if (!form.password) return setMessage('Missing password')
+    setMessage('')
 
-            //Testing Purposes
-            setMessage("Something's wrong");
-        }
+    try {
+      // TODO: replace with real API base URL via env variable
+      const res = await fetch('/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+
+      const data = await res.json()
+
+      if (res.ok) {
+        setMessage('User registered successfully!')
+        setForm({ email: '', password: '' })
+        // TODO: auto-login or redirect once auth flow is finalized
+        // navigate('/dashboard')
+      } else {
+        setMessage(data.message || 'Registration failed')
+      }
+    } catch (error) {
+      setMessage('Something went wrong. Please try again.')
     }
-    // How the form looks
-    return (
-      <div class="page">
-        <Navbar variant="back" balance={100000} />
-        <form onSubmit={handleSubmit} class="sign-up">
-            <h1>Register as a new user</h1>
-            <input 
-                type="email"
-                name="email"
-                value={form.email} 
-                onChange={handleChange} 
-                placeholder="Set Email" 
-            />
-            <br />
-            <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                placeholder="Set Password"
-            />
-            <br/>
-            <button type="submit">Register</button>
-            <p>Info: {message}</p>
-        </form>
-      </div>
-    );
+  }
+
+  return (
+    <div className="signup-page">
+      <img src={logo} alt="IPS" className="signup-logo" />
+      <p className="signup-subtitle">Create your account</p>
+
+      <form onSubmit={handleSubmit} className="signup-form">
+        <div className="form-field">
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="••••••••"
+          />
+        </div>
+
+        <button type="submit">Confirm</button>
+        {message && <p className="form-message">{message}</p>}
+      </form>
+
+      <p className="signup-footer">
+        Already have an account? <Link to="/login">Login</Link>
+      </p>
+    </div>
+  )
 }
+
+export default SignupPage

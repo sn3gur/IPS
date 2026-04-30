@@ -1,0 +1,84 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+
+.dashboard-page {
+  min-height: 100vh;
+  background-color: $color-bg;
+}
+
+.dashboard-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $space-6 $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  @include md {
+    padding: $space-8 $space-6;
+  }
+}
+
+
+// ---------- SEARCH BAR ----------
+
+.search-bar {
+  display: flex;
+  gap: $space-2;
+}
+
+.search-bar-input {
+  @include input-base;
+  flex: 1;  // takes remaining space
+}
+
+.search-bar-button {
+  @include button-primary;
+  border: 1px solid $color-brand;
+  padding: $space-3 $space-6;
+
+  &:hover {
+    border-color: $color-brand-hover;
+  }
+}
+
+
+// ---------- DASHBOARD SECTION ----------
+
+.dashboard-section {
+  @include card;
+}
+
+.dashboard-section-header {
+  @include flex-between;
+  margin-bottom: $space-3;
+}
+
+.dashboard-section-title {
+  font-size: $font-lg;
+  font-weight: $weight-medium;
+  margin: 0;
+}
+
+.dashboard-switch-mode {
+  padding: $space-1-5 $space-3;
+  background-color: transparent;
+  color: $color-text;
+  border: 1px solid $color-border;
+  border-radius: $radius-base;
+  font-size: $font-sm;
+  font-family: $font-family;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $color-surface-hover;
+  }
+}
+
+.dashboard-widget {
+  background-color: $color-bg;
+  border-radius: $radius-base;
+  min-height: 300px;
+}
