@@ -66,7 +66,7 @@ export default function SignupPage(){
     return (
       <div class="page">
         <Navbar variant="back" balance={100000} />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} class="sign-up">
             <h1>Register as a new user</h1>
             <input 
                 type="email"

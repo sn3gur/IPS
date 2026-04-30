@@ -20,7 +20,7 @@ function DashboardPage() {
 
       <main className="page-content debug-blue">
         {/* Asset Search -> Form with input*/}
-        <form onSubmit={handleSearchSubmit} className="debug-green">
+        <form onSubmit={handleSearchSubmit} className="search">
           <input
             type="text"
             placeholder="Asset Search"

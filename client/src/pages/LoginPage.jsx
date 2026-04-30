@@ -3,12 +3,14 @@ import Navbar from '../components/Navbar'
 
 function LoginPage() {
   const navigate = useNavigate()
+  
 
   const handleLogin = (e) => {
     e.preventDefault()
     // TODO: api-call to POST /api/users/login
     navigate('/dashboard')
   }
+  
 
   return (
     <div className="page debug" class="page">
@@ -17,8 +19,9 @@ function LoginPage() {
       <main className="page-content debug-blue">
         <h1>IPS</h1>
 
-        <form onSubmit={handleLogin} className="debug-green">
+        <form onSubmit={handleLogin} className="login">
           {/* TODO: input fields */}
+          
           <button type="submit">Login</button>
         </form>
 
