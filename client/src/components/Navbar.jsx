@@ -18,7 +18,12 @@ function Navbar({ variant = 'main', balance = 0 }) {
   return (
     <nav className="navbar debug">
       {variant === 'brand' && (
-        <img src={logo} alt="IPS" height="40" />
+        <>
+        <div className='logo'>
+          <img src={logo} alt="IPS" height="40" />
+          <h1>IPS</h1>
+        </div>
+        </>
       )}
 
       {variant === 'main' && (
