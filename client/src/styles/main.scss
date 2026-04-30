@@ -1,0 +1,24 @@
+// =============================================
+//  IPS — Main Stylesheet
+//  Imports all SCSS files in correct order.
+//  Add component styles below as we build them.
+// =============================================
+
+
+// 1. Variables & Mixins (no output, just tools)
+@use 'variables' as *;
+@use 'mixins' as *;
+
+
+// 2. Base / Reset (global defaults)
+@use 'base';
+
+
+// 3. Component Styles
+// We add these step by step:
+// @use '../components/Navbar';
+// @use '../pages/LoginPage';
+// @use '../pages/SignupPage';
+// @use '../pages/DashboardPage';
+// @use '../pages/SearchPage';
+// @use '../pages/AssetPage';
