@@ -1,0 +1,80 @@
+@use 'variables' as *;
+
+// =============================================
+//  Base Styles & Reset
+//  Globale Defaults — gilt für die gesamte App
+// =============================================
+
+
+// ---------- INTER FONT ----------
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+
+// ---------- RESET ----------
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+// ---------- BASE ----------
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: $font-family;
+  font-size: $font-base;
+  font-weight: $weight-regular;
+  line-height: 1.5;
+  color: $color-text;
+  background-color: $color-bg;
+
+  // Bessere Schrift-Rendering
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+// ---------- TYPOGRAPHY DEFAULTS ----------
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $weight-semibold;
+  line-height: 1.2;
+}
+
+h1 { font-size: $font-3xl; }
+h2 { font-size: $font-2xl; }
+h3 { font-size: $font-xl; }
+h4 { font-size: $font-lg; }
+
+a {
+  color: $color-brand;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-brand-hover;
+  }
+}
+
+
+// ---------- FORM ELEMENTS ----------
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+
+// ---------- DEBUG HELPERS ----------
+// Temporär! Klasse "debug" auf Element setzen, um Bounds zu sehen.
+// Später per Suchen+Ersetzen rausnehmen.
+.debug       { border: 1px solid red; }
+.debug-blue  { border: 1px solid blue; }
+.debug-green { border: 1px solid green; }

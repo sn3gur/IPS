@@ -1,0 +1,79 @@
+// =============================================
+//  All global sryles and design variables are defined here.
+// =============================================
+
+
+// ---------- COLORS ----------
+
+// Backgrounds
+$color-bg:            #0A0E1A;  // App-background
+$color-surface:       #131826;  // Cards, Modals, Panels
+$color-surface-hover: #1C2333;  // Hover-State für Surfaces
+$color-border:        #232A3D;  // Subtile Trennlinien
+
+// Text
+$color-text:          #F5F5F5;  // Haupttext
+$color-text-secondary:#9CA3AF;  // Labels, Captions
+$color-text-muted:    #6B7280;  // Placeholder, Disabled
+
+// Semantic Colors
+$color-profit:        #00C853;  // Gewinne (Grün)
+$color-loss:          #FF3B3B;  // Verluste (Rot)
+$color-brand:         #3B82F6;  // Primärbutton, Links
+$color-brand-hover:   #2563EB;  // Brand-Hover
+
+
+// ---------- SPACING ----------
+// 4px-Grid System
+
+$space-1:  4px;
+$space-2:  8px;
+$space-3:  12px;
+$space-4:  16px;
+$space-6:  24px;
+$space-8:  32px;
+$space-12: 48px;
+$space-16: 64px;
+
+
+// ---------- TYPOGRAPHY ----------
+
+$font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+// Font Sizes
+$font-xs:   12px;
+$font-sm:   14px;
+$font-base: 16px;
+$font-lg:   18px;
+$font-xl:   24px;
+$font-2xl:  32px;
+$font-3xl:  48px;
+
+// Font Weights
+$weight-regular:  400;
+$weight-medium:   500;
+$weight-semibold: 600;
+$weight-bold:     700;
+
+
+// ---------- BORDERS / RADIUS ----------
+
+$radius-sm:   4px;
+$radius-base: 8px;   // Standard for most elements
+$radius-lg:   12px;
+$radius-full: 9999px;  // Kreise / Pills
+
+
+// ---------- BREAKPOINTS ----------
+// Mobile First 
+
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+
+// ---------- TRANSITIONS ----------
+
+$transition-fast: 150ms ease;
+$transition-base: 250ms ease;
