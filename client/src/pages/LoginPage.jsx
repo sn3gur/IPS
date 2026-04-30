@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Navbar from '../components/Navbar'
+import logo from '../assets/logo-ips.png'
 
 function LoginPage() {
   const navigate = useNavigate()
@@ -51,35 +51,42 @@ function LoginPage() {
   }
 
   return (
-    <div className="page debug">
-      <Navbar variant="brand" />
+    <div className="login-page">
+      <img src={logo} alt="IPS" className="login-logo" />
+      <p className="login-subtitle">Login to your account</p>
 
-      <main className="page-content debug-blue">
-        <h1>IPS</h1>
-
-        <form onSubmit={handleLogin} className="login-form debug-green">
+      <form onSubmit={handleLogin} className="login-form">
+        <div className="form-field">
+          <label htmlFor="email">Email</label>
           <input
+            id="email"
             type="email"
             name="email"
             value={form.email}
             onChange={handleChange}
-            placeholder="Email"
+            placeholder="you@example.com"
           />
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="password">Password</label>
           <input
+            id="password"
             type="password"
             name="password"
             value={form.password}
             onChange={handleChange}
-            placeholder="Password"
+            placeholder="••••••••"
           />
-          <button type="submit">Login</button>
-          {message && <p className="form-message">{message}</p>}
-        </form>
+        </div>
 
-        <p>
-          New? <Link to="/signup">Sign up</Link>
-        </p>
-      </main>
+        <button type="submit">Login</button>
+        {message && <p className="form-message">{message}</p>}
+      </form>
+
+      <p className="login-footer">
+        New here? <Link to="/signup">Sign up</Link>
+      </p>
     </div>
   )
 }

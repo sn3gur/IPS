@@ -1,0 +1,92 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+
+.navbar {
+  @include flex-between;
+  padding: $space-3 $space-4;
+  background-color: $color-surface;
+  border-bottom: 1px solid $color-border;
+
+  @include md {
+    padding: $space-3 $space-6;
+  }
+}
+
+
+// ---------- LOGO (main variant) ----------
+
+//TODO logo without text
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+
+}
+
+
+// ---------- BACK BUTTON ----------
+
+.navbar-back {
+  display: flex;
+  align-items: center;
+  gap: $space-1-5;
+  padding: $space-2 $space-4;
+  background-color: transparent;
+  color: $color-text;
+  border: 1px solid $color-border;
+  border-radius: $radius-base;
+  font-size: $font-base;
+  font-family: $font-family;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $color-surface-hover;
+  }
+
+  // The arrow character "←"
+  .navbar-back-arrow {
+    font-size: $font-md;
+    line-height: 1;
+  }
+}
+
+
+// ---------- LOGOUT BUTTON ----------
+
+.navbar-logout {
+  padding: $space-2 $space-4;
+  background-color: transparent;
+  color: $color-text;
+  border: 1px solid $color-border;
+  border-radius: $radius-base;
+  font-size: $font-base;
+  font-family: $font-family;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $color-surface-hover;
+  }
+}
+
+
+// ---------- BALANCE DISPLAY ----------
+
+.navbar-balance {
+  display: flex;
+  align-items: center;
+  gap: $space-1-5;
+
+  &-label {
+    color: $color-text-secondary;
+    font-size: $font-sm;
+  }
+
+  &-value {
+    color: $color-text;
+    font-size: $font-base;
+    font-weight: $weight-medium;
+  }
+}
