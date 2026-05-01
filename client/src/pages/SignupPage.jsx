@@ -11,6 +11,8 @@ function SignupPage() {
     password: '',
   })
   const [message, setMessage] = useState('')
+  // Loading state for async operations
+  const [isLoading, setIsLoading] = useState(false)
 
   // Update form field on input change
   const handleChange = (event) => {
@@ -24,11 +26,24 @@ function SignupPage() {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    // Basic validation
+    // validation
+     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!form.email) return setMessage('Missing email')
+    if (!emailRegex.test(form.email)) return setMessage('Invalid email format')
     if (!form.password) return setMessage('Missing password')
-    setMessage('')
+    setMessage('Creating account...')
+    setIsLoading(true)
 
+    console.log('Signup form submitted with:', form.email)
+
+    setTimeout(() => {
+      console.log('Simulated registration successful')
+      setIsLoading(false)
+      setMessage('User registered successfully!')
+      navigate('/dashboard')
+    }, 1000);
+
+    /*
     try {
       // TODO: replace with real API base URL via env variable
       const res = await fetch('/api/users/register', {
@@ -50,6 +65,7 @@ function SignupPage() {
     } catch (error) {
       setMessage('Something went wrong. Please try again.')
     }
+    */
   }
 
   return (
@@ -67,6 +83,7 @@ function SignupPage() {
             value={form.email}
             onChange={handleChange}
             placeholder="you@example.com"
+            disabled={isLoading}
           />
         </div>
 
@@ -79,10 +96,13 @@ function SignupPage() {
             value={form.password}
             onChange={handleChange}
             placeholder="••••••••"
+            disabled={isLoading}
           />
         </div>
 
-        <button type="submit">Confirm</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'Creating account...' : 'Confirm'}
+        </button>
         {message && <p className="form-message">{message}</p>}
       </form>
 

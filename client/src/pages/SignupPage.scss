@@ -9,8 +9,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: $space-6 $space-4;
+  padding: $space-4;
   background-color: $color-bg;
+
+  @include sm {
+    padding: $space-6 $space-4;
+  }
 
   @include md {
     padding: $space-12 $space-6;
@@ -18,11 +22,15 @@
 }
 
 .signup-logo {
-  width: 140px;
-  height: 140px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
   margin-bottom: $space-4;
 
+  @include sm {
+    width: 140px;
+    height: 140px;
+  }
 
   @include md {
     width: 160px;
@@ -32,8 +40,13 @@
 
 .signup-subtitle {
   color: $color-text-secondary;
-  font-size: $font-base;
-  margin-bottom: $space-8;
+  font-size: $font-sm;
+  margin-bottom: $space-6;
+
+  @include sm {
+    font-size: $font-base;
+    margin-bottom: $space-8;
+  }
 }
 
 .signup-form {
@@ -43,12 +56,17 @@
   display: flex;
   flex-direction: column;
   gap: $space-4;
-  padding: $space-8;
+  padding: $space-6;
+
+  @include sm {
+    padding: $space-8;
+  }
 }
 
 .signup-form button[type="submit"] {
   @include button-primary;
   margin-top: $space-2;
+  padding: $space-3;
 }
 
 .signup-footer {

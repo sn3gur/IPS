@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import logo from '../assets/logo-ips.png'
 
 /**
@@ -8,10 +9,23 @@ import logo from '../assets/logo-ips.png'
  */
 function Navbar({ variant = 'main', balance = 0 }) {
   const navigate = useNavigate()
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
 
   const handleLogout = () => {
+    setIsLoggingOut(true)
+    console.log('Logging out...')
+
+    setTimeout(() => {
+        console.log("Mock logout successful! Session destroyed.")
+        setIsLoggingOut(false)
+        navigate('/login')
+    }, 1000)
+
+    /*
     // TODO: session logic 
+    await axios.post('/api/users/logout', {}, { withCredentials: true })
     navigate('/login')
+    */
   }
 
   // Format balance: 100000 → "$100,000.00"
@@ -25,8 +39,8 @@ function Navbar({ variant = 'main', balance = 0 }) {
       {variant === 'main' && (
         <>
           <img src={logo} alt="IPS" className="navbar-logo" />
-          <button onClick={handleLogout} className="navbar-logout">
-            Logout
+          <button onClick={handleLogout} className="navbar-logout" disabled={isLoggingOut}>
+            {isLoggingOut ? 'Logging out...' : 'Logout'}
           </button>
         </>
       )}

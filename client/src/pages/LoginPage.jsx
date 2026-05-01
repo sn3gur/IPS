@@ -12,6 +12,9 @@ function LoginPage() {
   })
   const [message, setMessage] = useState('')
 
+  // Loading state for async operations
+  const[isLoading, setIsLoading] = useState(false)
+
   // Update form field on input change
   const handleChange = (event) => {
     setForm({
@@ -24,11 +27,26 @@ function LoginPage() {
   const handleLogin = async (event) => {
     event.preventDefault()
 
+    //enhanced validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     // Basic validation
     if (!form.email) return setMessage('Missing email')
+    if (!emailRegex.test(form.email)) return setMessage('Invalid email format')
     if (!form.password) return setMessage('Missing password')
-    setMessage('')
+    if (form.password.length < 6) return setMessage('Password must be at least 6 characters')
+    setMessage('Logging in...')
+    setIsLoading(true)
 
+    console.log('Login form submitted with:', form.email)
+
+    setTimeout(() => {
+      console.log('Simulated login successful')
+      setIsLoading(false)
+      navigate('/dashboard')
+    }, 1000)
+
+    /*
     try {
       // TODO: replace with real API base URL via env variable
       const res = await fetch('/api/users/login', {
@@ -48,6 +66,7 @@ function LoginPage() {
     } catch (error) {
       setMessage('Something went wrong. Please try again.')
     }
+    */
   }
 
   return (
@@ -65,6 +84,7 @@ function LoginPage() {
             value={form.email}
             onChange={handleChange}
             placeholder="you@example.com"
+            disabled={isLoading}
           />
         </div>
 
@@ -77,10 +97,11 @@ function LoginPage() {
             value={form.password}
             onChange={handleChange}
             placeholder="••••••••"
+            disabled={isLoading}
           />
         </div>
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={isLoading}>{isLoading ? 'Loading...' : 'Login'}</button>
         {message && <p className="form-message">{message}</p>}
       </form>
 
