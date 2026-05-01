@@ -1,11 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import logo from '../assets/logo-ips.png'
 
-/**
- * Navbar with two variants:
- *   variant="main"  → IPS Logo + Logout         (Dashboard)
- *   variant="back"  → Back button + Balance     (Search, Asset)
- */
+
 function Navbar({ variant = 'main', balance = 0 }) {
   const navigate = useNavigate()
 
@@ -14,7 +10,7 @@ function Navbar({ variant = 'main', balance = 0 }) {
     navigate('/login')
   }
 
-  // Format balance: 100000 → "$100,000.00"
+  // Format balance
   const formattedBalance = `$${balance.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
