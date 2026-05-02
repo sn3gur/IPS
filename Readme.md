@@ -1,72 +1,39 @@
-# Intelligent Portfolio Simulator (IPS)
+# Intelligent Portfolio Simulator (IPS) - Frontend
 
 **Team Members:** Andrii Snihuriak - 3135747, Bruno Kennedy-Lisboa - 3141551, Erik Resman - 3144841, Manuel Weiskopf - 3196883   
-**Live API URL:** [https://ips-lbcs.onrender.com](https://ips-lbcs.onrender.com)  
+**Live Frontend URL:** [https://ips-frontend-hfp6.onrender.com](https://ips-frontend-hfp6.onrender.com)  
 
 ---
 
 ## **Project Overview**
-Our project is a full-stack stock trading simulator. It allows users to create an account, search for real-time stock prices via the Finnhub API, and buy or sell stocks using a starting balance of $100,000. 
+Our project is a full-stack stock trading simulator. For this iteration, we focused on the **Frontend** development, building a responsive and interactive React application that allows users to simulate stock trades with real-time data.
 
-The backend is built with **Node.js** and **Express**, using **MongoDB** to store user data and transaction history. We implemented **JWT (JSON Web Tokens)** for secure authentication and a database **aggregation pipeline** to calculate real-time portfolio holdings.
-
----
-
-## **How to Test the API**
-Since this stage focuses on the backend functionality, we have provided ways to test all routes without needing the full UI:
-
-* **Bruno / API Tester:** Inside the root folder, there is a directory called `tests/api-tests`. You can import the `IPS_Collection.json` file into Bruno (or any API tester) to execute pre-configured requests.
-
-**Manual Testing:**
-* **Health Check:** Visit the Live URL above to verify the server returns the `"Server is running smoothly"` status.
-* **Live Prices:** Visit `https://ips-lbcs.onrender.com/api/stocks/AAPL` to see real-time JSON data fetched from Finnhub.
-* **Protected Routes:** Send a POST request to `/api/users/login` to receive a token. Attach this token to the `x-auth-token` header to test protected routes like Buying and viewing the Portfolio.
+The frontend is built with **React** and **Vite**, utilizing **Tailwind CSS** for styling and the **Finnhub API** for live market data. We implemented a dynamic dashboard, secure login/signup flows, and interactive charts.
 
 ---
 
 ## **Team Contributions & Division of Labour**
-We divided the work based on the MERN stack architecture. Overall, the work was split fairly evenly, with a focus on cross-testing each other's code.
+Work was evenly divided among the team to ensure the frontend is functional, secure, and user-friendly.
 
-* **Andrii (Database/Logic):** 
-  * Set up the initial environment, Express server, and MongoDB connection.
-  * Built the secure authentication system.
-  * Wrote core `buyStock` logic and the portfolio aggregation pipeline.
-
-* **Bruno (Backend & Data):** 
-  * Integrated the external stock API (Finnhub) using Axios.
-  * Developed the `sellStock` logic and transaction validation.
-  * Created the "reset portfolio" `DELETE` route for CRUD compliance.
-  * Built checks to handle missing symbols or API rate-limiting errors.
-
-* **Eric & Manu (Frontend & Integration):** 
-  * Developed the React interface and state management.
-  * Connected the frontend forms to the backend API endpoints.
-  * Implemented the TradingView widget for visual market data.
+*   Andrii: Frontend Logic, Auth Integration, and State Management (25%)
+*   Bruno: API Data Handling and Transaction Logic (25%)
+*   Erik: UI/UX Design, Components, and Responsive Layout (25%)
+*   Manuel: TradingView Integration and Dashboard Interactivity (25%)
 
 ---
 
-## **CRUD Functionality**
-* **Create:** `POST /api/users/register` and `POST /api/trades/buy`
-* **Read:** `GET /api/trades/portfolio` and `GET /api/stocks/:symbol`
-* **Update:** User account balances update automatically upon successful trade execution.
-* **Delete:** `DELETE /api/trades/reset` (Wipes user transactions and restores initial cash balance).
-
 ## **Technical References & Resources**
 
-**Frontend (Auth & Layout)**
-* **React Quick Start:** Used for component structure and standard React patterns. [React Dev Docs](https://react.dev/learn)
-* **React Router:** Used for implementing client-side routing to navigate seamlessly between the Login page and the main Trading Dashboard. [React Router Tutorial](https://reactrouter.com/en/main/start/tutorial)
+**Frontend (React & Vite)**
+* **Vite Documentation:** Used for the build tool and project scaffolding. [Vite Guide](https://vite.dev/guide/)
+* **React Docs:** Referenced for Hooks (`useState`, `useEffect`) and component lifecycle. [React Reference](https://react.dev/reference/react)
+* **Tailwind CSS:** Used for utility-first styling and responsive design. [Tailwind Docs](https://tailwindcss.com/docs/)
 
-**Frontend (Dashboard & Logic)**
-* **React State Management:** Used for handling UI updates, such as tracking the user's current cash balance and form inputs. [React API Reference](https://react.dev/reference/react)
-* **Fetch API:** Used to handle asynchronous HTTP requests to our Node.js backend. [MDN Web Docs - Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+**Data & Integration**
+* **Finnhub API:** Source for real-time stock market data. [Finnhub Documentation](https://finnhub.io/docs/api)
+* **Axios:** Used for handling asynchronous API requests to the backend. [Axios Docs](https://axios-http.com/docs/intro)
+* **TradingView Widget:** Used for real-time stock charting. [TradingView Docs](https://www.tradingview.com/widget/)
 
-**Backend API & Security**
-* **Express Routing:** Used to modularize our backend endpoints (e.g., separating user authentication routes from trade execution routes). [Express.js Basic Routing](https://expressjs.com/en/starter/basic-routing.html)
-* **JSON Web Tokens (JWT):** Used for maintaining stateless user sessions and securing our protected trade endpoints. [JWT Introduction](https://jwt.io/introduction)
+**Deployment**
+* **Render Deployment:** Used for hosting the React frontend as a static site. [Render Static Sites](https://docs.render.com/static-sites)
 
-**Video Tutorials & Walkthroughs**
-* **MERN Stack Crash Course:** *Learn MERN Stack with Project in 2 Hours* by Dipesh Malvia. We referenced this tutorial's architectural approach to bridging a React frontend with an Express/MongoDB backend. [Watch on YouTube](https://www.youtube.com/watch?v=DJ5iIo4AWDg)
-
-**Tools & AI Assistants**
-* **GitHub Copilot:** Used to analyze our repository's commit history to accurately summarize team contributions, and for inline syntax checking during development.

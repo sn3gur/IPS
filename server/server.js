@@ -19,7 +19,7 @@ const app = express();
 
 /* middleware */
 app.use(cors({
-    origin: 'http://localhost:3000', // React app URL
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000', // React app URL
     credentials: true // allow cookies to be sent
 })); //communtication between React and Express
 app.use(express.json());
