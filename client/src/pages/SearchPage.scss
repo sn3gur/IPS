@@ -1,0 +1,115 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.search-page {
+  min-height: 100vh;
+  background-color: $color-bg;
+}
+
+.search-content {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: $space-6 $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+
+  @include md {
+    padding: $space-12 $space-6;
+  }
+}
+
+// ---------- SEARCH FORM ----------
+
+.search-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+
+  @include sm {
+    flex-direction: row;
+  }
+}
+
+.search-input {
+  @include input-base;
+  flex: 1;
+  font-size: $font-base;
+
+  @include md {
+    font-size: $font-md;
+    padding: $space-4;
+  }
+}
+
+.search-button {
+  @include button-primary;
+  padding: $space-3 $space-8;
+}
+
+// ---------- RESULTS SECTION ----------
+
+.search-results-section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.search-feedback {
+  color: $color-text-secondary;
+  font-size: $font-base;
+  font-weight: $weight-regular;
+  margin: 0;
+
+  strong {
+    color: $color-text;
+    font-weight: $weight-medium;
+  }
+}
+
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.result-item {
+  @include card;
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  padding: $space-4 $space-6;
+  cursor: pointer;
+  transition: transform $transition-fast, background-color $transition-fast;
+
+  &:hover {
+    background-color: $color-surface-hover;
+    transform: translateX(4px);
+    border-color: $color-brand;
+  }
+
+  .result-symbol {
+    font-size: $font-lg;
+    font-weight: $weight-bold;
+    color: $color-brand;
+    min-width: 80px;
+  }
+
+  .result-name {
+    color: $color-text-secondary;
+    font-size: $font-base;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.no-results-message {
+  padding: $space-8;
+  text-align: center;
+  color: $color-text-muted;
+  background-color: $color-surface;
+  border: 1px dashed $color-border;
+  border-radius: $radius-base;
+}

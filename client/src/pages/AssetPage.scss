@@ -1,0 +1,171 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.asset-page {
+  min-height: 100vh;
+  background-color: $color-bg;
+}
+
+.asset-content {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  @include md {
+    padding: $space-8 $space-6;
+    gap: $space-6;
+  }
+}
+
+// ---------- ASSET HEADER ----------
+
+.asset-header {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+
+  @include sm {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  &-info {
+    .asset-symbol {
+      font-size: $font-xl;
+      font-weight: $weight-bold;
+      color: $color-brand;
+      margin: 0;
+    }
+  }
+
+  &-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    @include sm {
+      align-items: flex-end;
+    }
+
+    .current-price {
+      font-size: $font-xl;
+      font-weight: $weight-medium;
+      color: $color-text;
+    }
+
+    .price-change {
+      font-size: $font-base;
+      font-weight: $weight-medium;
+
+      &.up { color: $color-profit; }
+      &.down { color: $color-loss; }
+    }
+  }
+}
+
+// ---------- CHART AREA ----------
+
+.asset-chart-container {
+  @include card;
+  padding: $space-2;
+  height: 50vh;
+  min-height: 350px;
+
+  @include md {
+    height: 60vh;
+    min-height: 450px;
+  }
+}
+
+// ---------- TRADE ACTIONS ----------
+
+.trade-panel {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-4;
+
+  @include md {
+    grid-template-columns: 1fr 300px;
+  }
+}
+
+.market-stats {
+  @include card;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-4;
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+
+    label {
+      font-size: $font-xs;
+      color: $color-text-secondary;
+      text-transform: uppercase;
+    }
+
+    span {
+      font-size: $font-base;
+      font-weight: $weight-medium;
+    }
+  }
+}
+
+.trade-controls {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  .trade-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+
+    label {
+      font-size: $font-sm;
+      color: $color-text-secondary;
+    }
+
+    input {
+      @include input-base;
+      text-align: center;
+      font-size: $font-lg;
+    }
+  }
+
+  .trade-buttons-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-2;
+
+    .btn-buy {
+      @include button-primary;
+      background-color: $color-profit;
+      &:hover { background-color: darken($color-profit, 5%); }
+    }
+
+    .btn-sell {
+      @include button-primary;
+      background-color: $color-loss;
+      &:hover { background-color: darken($color-loss, 5%); }
+    }
+  }
+}
+
+.trade-message {
+  padding: $space-3;
+  border-radius: $radius-base;
+  text-align: center;
+  font-size: $font-sm;
+  background-color: $color-surface-hover;
+  border: 1px solid $color-border;
+  color: $color-brand;
+}

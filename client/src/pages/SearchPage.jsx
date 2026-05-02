@@ -1,7 +1,14 @@
+/**
+ * VIEW: SearchPage
+ * Represents the search functionality of the IPS application.
+ * Users can search for stock symbols or company names.
+ * Currently uses mock data as per Assignment 3 requirements.
+ */
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 
+// Mock data for demonstration purposes
 const MOCK_STOCKS = [
   { symbol: 'AAPL', name: 'Apple Inc.' },
   { symbol: 'MSFT', name: 'Microsoft Corporation' },
@@ -26,11 +33,10 @@ function SearchPage() {
 
   const [searchResults, setSearchResults] = useState([])
 
-  // TODO: If the query is available -> API-Call to /api/stocks/:symbol
-  //live filtering of mock stocks based on search query
+  // Live filtering of mock stocks based on search query
   useEffect(() => {
     if (!searchQuery.trim()) {
-      setSearchResults([]) // Clear results if search bar is empty
+      setSearchResults([]) 
       return
     }
     const query = searchQuery.toLowerCase()
@@ -42,35 +48,37 @@ function SearchPage() {
     setSearchResults(filtered)
   }, [searchQuery])
 
+  // Handles search form submission
   const handleSearchSubmit = (e) => {
     e.preventDefault()
     const query = searchQuery.trim()
     if (!query) return
-    setSearchParams({ q: query })  // updated URL → useEffect feuert neu
+    setSearchParams({ q: query })  
     setHasSearched(true)
   }
 
+  // Navigates to the individual asset page
   const handleResultClick = (symbol) => {
     navigate(`/asset/${symbol}`)
   }
 
   return (
-    <div className="page debug">
+    <div className="search-page">
       <Navbar variant="back" balance={100000} />
 
-      <main className="page-content debug-blue">
-        <form onSubmit={handleSearchSubmit} class="search">
+      <main className="search-content">
+        <form onSubmit={handleSearchSubmit} className="search-form-container">
           <input
             type="text"
-            placeholder="Search symbol or company"
+            className="search-input"
+            placeholder="Search symbol or company (e.g. Apple)"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ width: '100%', padding: '10px', fontSize: '1.1rem' }}
           />
-          <button type="submit">Search</button>
+          <button type="submit" className="search-button">Search</button>
         </form>
 
-        <section className="search-results debug-green">
+        <section className="search-results-section">
          {hasSearched && (
             <h4 className="search-feedback">
               Showing results for: <strong>"{searchQuery}"</strong>

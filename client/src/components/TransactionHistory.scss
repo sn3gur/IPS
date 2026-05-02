@@ -9,7 +9,89 @@
 .transaction-history-title {
   font-size: $font-lg;
   font-weight: $weight-medium;
-  margin: 0 0 $space-3 0;
+  margin: 0 0 $space-4 0;
+}
+
+.transaction-list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  padding: $space-3;
+  background-color: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-base;
+  gap: $space-4;
+  flex-wrap: wrap;
+
+  @include sm {
+    flex-wrap: nowrap;
+  }
+}
+
+.tx-type-badge {
+  padding: $space-1 $space-3;
+  border-radius: $radius-sm;
+  font-size: 10px;
+  font-weight: $weight-bold;
+  letter-spacing: 0.05em;
+
+  &[data-type="BUY"] {
+    background-color: rgba($color-profit, 0.1);
+    color: $color-profit;
+    border: 1px solid rgba($color-profit, 0.2);
+  }
+
+  &[data-type="SELL"] {
+    background-color: rgba($color-loss, 0.1);
+    color: $color-loss;
+    border: 1px solid rgba($color-loss, 0.2);
+  }
+}
+
+.tx-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 80px;
+
+  .tx-symbol {
+    font-weight: $weight-medium;
+    color: $color-text;
+  }
+
+  .tx-date {
+    font-size: $font-xs;
+    color: $color-text-muted;
+  }
+}
+
+.tx-details {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  min-width: 100px;
+
+  .tx-quantity {
+    font-size: $font-sm;
+    color: $color-text;
+  }
+
+  .tx-price {
+    font-size: $font-xs;
+    color: $color-text-secondary;
+  }
+}
+
+.tx-total {
+  font-weight: $weight-medium;
+  color: $color-text;
+  min-width: 90px;
+  text-align: right;
 }
 
 .transaction-history-empty {

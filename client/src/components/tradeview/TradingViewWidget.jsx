@@ -1,7 +1,12 @@
 // TradingViewWidget.jsx
 import React, { useEffect, useRef, memo } from 'react';
 
-function TradingViewWidget() {
+/**
+ * COMPONENT: TradingViewWidget
+ * Embeds an advanced TradingView chart for a specific asset.
+ * @param {string} symbol - The ticker symbol (e.g., AAPL)
+ */
+function TradingViewWidget({ symbol = 'AAPL' }) {
   const container = useRef();
 
   useEffect(
@@ -10,6 +15,9 @@ function TradingViewWidget() {
       if (!widgetContainer) return;
 
       widgetContainer.replaceChildren();
+
+      // Check if the symbol already has an exchange prefix
+      const formattedSymbol = symbol.includes(':') ? symbol : `NASDAQ:${symbol}`;
 
       const script = document.createElement("script");
       script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
@@ -29,15 +37,15 @@ function TradingViewWidget() {
           "locale": "en",
           "save_image": true,
           "style": "1",
-          "symbol": "NASDAQ:AAPL",
+          "symbol": "${formattedSymbol}",
           "theme": "dark",
           "timezone": "Etc/UTC",
           "gridColor": "rgba(242, 242, 242, 0.06)",
           "watchlist": [],
-          "withdateranges": false,
+          "withdateranges": true,
           "compareSymbols": [],
           "studies": [],
-          "autosize": false
+          "autosize": true
         }`;
       widgetContainer.appendChild(script);
 
@@ -45,14 +53,11 @@ function TradingViewWidget() {
         widgetContainer.replaceChildren();
       };
     },
-    []
+    [symbol]
   );
 
   return (
-    <div className="tradingview-widget-container" ref={container} style={{ height: "100%", width: "100%", marginBottom: "10%" }}> </div>
-
-    
-
+    <div className="tradingview-widget-container" ref={container} style={{ height: "100%", width: "100%" }}> </div>
   );
 }
 
