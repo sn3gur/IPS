@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../assets/logo-ips.png'
+import apiClient from '../api/apiClient'
+import { AuthContext } from '../context/AuthContext'
 
 function SignupPage() {
   const navigate = useNavigate()
+  const { login } = useContext(AuthContext)
 
   // Form state
   const [form, setForm] = useState({
@@ -34,38 +37,24 @@ function SignupPage() {
     setMessage('Creating account...')
     setIsLoading(true)
 
-    console.log('Signup form submitted with:', form.email)
-
-    setTimeout(() => {
-      console.log('Simulated registration successful')
-      setIsLoading(false)
-      setMessage('User registered successfully!')
-      navigate('/dashboard')
-    }, 1000);
-
-    /*
     try {
-      // TODO: replace with real API base URL via env variable
-      const res = await fetch('/api/users/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+      // apiClient handles the base URL and cookies securely
+      const res = await apiClient.post('/api/users/register', {
+        email: form.email,
+        password: form.password
       })
-
-      const data = await res.json()
-
-      if (res.ok) {
+      if (res.status === 201 || res.status === 200) {
         setMessage('User registered successfully!')
-        setForm({ email: '', password: '' })
-        // TODO: auto-login or redirect once auth flow is finalized
-        // navigate('/dashboard')
-      } else {
-        setMessage(data.message || 'Registration failed')
+        login(res.data.user || { email: form.email })
+        navigate('/dashboard')
       }
     } catch (error) {
-      setMessage('Something went wrong. Please try again.')
+      // email already in use or other backend validation error
+      const backendError = error.response?.data?.message || 'Registration failed. Please try again.'
+      setMessage(backendError)
+    } finally {
+      setIsLoading(false)
     }
-    */
   }
 
   return (

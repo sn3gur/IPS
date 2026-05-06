@@ -13,5 +13,8 @@ router.post('/login', authController.loginUser);
 // POST request to trigger user logout
 router.post('/logout', authController.logoutUser); 
 
+// GET request to check current session / user info
+router.get('/me', require('../middleware/auth'), authController.getMe);
+
 // export the router to be used in server.js
 module.exports = router;

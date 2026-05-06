@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../assets/logo-ips.png'
+import apiClient from '../api/apiClient'
+import { AuthContext } from '../context/AuthContext'
 
 function LoginPage() {
   const navigate = useNavigate()
+  const { login } = useContext(AuthContext)
 
   // Form state
   const [form, setForm] = useState({
@@ -38,35 +41,26 @@ function LoginPage() {
     setMessage('Logging in...')
     setIsLoading(true)
 
-    console.log('Login form submitted with:', form.email)
-
-    setTimeout(() => {
-      console.log('Simulated login successful')
-      setIsLoading(false)
-      navigate('/dashboard')
-    }, 1000)
-
-    /*
+    // api call
     try {
       // TODO: replace with real API base URL via env variable
-      const res = await fetch('/api/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+      const res = await apiClient.post('/api/users/login', {
+        email: form.email,
+        password: form.password
       })
-
-      const data = await res.json()
-
-      if (res.ok) {
-        // TODO: handle session/token storage once auth is wired up
+      if (res.status === 200) {
+        //tell the app this user is logged in
+        login(res.data.user || { email: form.email })
+        //send user to the dashboard
         navigate('/dashboard')
-      } else {
-        setMessage(data.message || 'Login failed')
       }
     } catch (error) {
-      setMessage('Something went wrong. Please try again.')
+      //Axios puts backend error messages inside error.response.data
+      const backendError = error.response?.data?.message || 'Login failed. Check credentials.'
+      setMessage(backendError)
+    } finally {
+      setIsLoading(false)
     }
-    */
   }
 
   return (

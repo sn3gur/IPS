@@ -1,26 +1,7 @@
-/**
- * VIEW: SearchPage
- * Represents the search functionality of the IPS application.
- * Users can search for stock symbols or company names.
- * Currently uses mock data as per Assignment 3 requirements.
- */
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Navbar from '../components/Navbar'
-
-// Mock data for demonstration purposes
-const MOCK_STOCKS = [
-  { symbol: 'AAPL', name: 'Apple Inc.' },
-  { symbol: 'MSFT', name: 'Microsoft Corporation' },
-  { symbol: 'GOOGL', name: 'Alphabet Inc.' },
-  { symbol: 'AMZN', name: 'Amazon.com Inc.' },
-  { symbol: 'TSLA', name: 'Tesla Inc.' },
-  { symbol: 'META', name: 'Meta Platforms Inc.' },
-  { symbol: 'NVDA', name: 'NVIDIA Corporation' },
-  { symbol: 'BRK.B', name: 'Berkshire Hathaway' },
-  { symbol: 'V', name: 'Visa Inc.' },
-  { symbol: 'JNJ', name: 'Johnson & Johnson' }
-]
+import { searchStocksByQuery } from '../api/stockApi'
 
 function SearchPage() {
   const navigate = useNavigate()
@@ -29,32 +10,49 @@ function SearchPage() {
   // Read query from URL (?q=AAPL)
   const initialQuery = searchParams.get('q') || ''
   const [searchQuery, setSearchQuery] = useState(initialQuery)
-  const [hasSearched, setHasSearched] = useState(!!initialQuery)
-
   const [searchResults, setSearchResults] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  // Live filtering of mock stocks based on search query
-  useEffect(() => {
-    if (!searchQuery.trim()) {
-      setSearchResults([]) 
+  // This function performs the actual search
+  const performSearch = async (query) => {
+    if (!query.trim()) {
+      setSearchResults([])
       return
     }
-    const query = searchQuery.toLowerCase()
-    // Filter MOCK_STOCKS by symbol or name matching the query
-    const filtered = MOCK_STOCKS.filter(stock =>
-      stock.symbol.toLowerCase().includes(query) ||
-      stock.name.toLowerCase().includes(query)
-    )
-    setSearchResults(filtered)
+
+    setIsLoading(true)
+    setError('')
+    try {
+      const data = await searchStocksByQuery(query)
+      setSearchResults(data)
+    } catch (err) {
+      console.error("Search failed:", err)
+      setError('Failed to fetch results from the market.')
+    } finally {
+      setIsLoading(true) // Resetting to false below
+      setIsLoading(false)
+    }
+  }
+
+  // Trigger search when typing (debounced)
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (searchQuery) {
+        performSearch(searchQuery)
+      }
+    }, 500)
+
+    return () => clearTimeout(timeoutId)
   }, [searchQuery])
 
-  // Handles search form submission
+  // Handles search form submission (button click or Enter)
   const handleSearchSubmit = (e) => {
     e.preventDefault()
     const query = searchQuery.trim()
     if (!query) return
-    setSearchParams({ q: query })  
-    setHasSearched(true)
+    setSearchParams({ q: query })
+    performSearch(query) // Explicitly trigger on submit
   }
 
   // Navigates to the individual asset page
@@ -64,7 +62,7 @@ function SearchPage() {
 
   return (
     <div className="search-page">
-      <Navbar variant="back" balance={100000} />
+      <Navbar variant="back" />
 
       <main className="search-content">
         <form onSubmit={handleSearchSubmit} className="search-form-container">
@@ -79,14 +77,17 @@ function SearchPage() {
         </form>
 
         <section className="search-results-section">
-         {hasSearched && (
+          {searchQuery && (
             <h4 className="search-feedback">
               Showing results for: <strong>"{searchQuery}"</strong>
             </h4>
           )}
 
           <div className="results-list">
-            {searchResults.length > 0 ? (
+            {isLoading && <div className="search-loading">Searching market data...</div>}
+            {error && <div className="search-error">{error}</div>}
+            
+            {!isLoading && searchResults.length > 0 ? (
               searchResults.map((stock) => (
                 <div 
                   key={stock.symbol}
@@ -98,7 +99,7 @@ function SearchPage() {
                 </div>
               ))
             ) : (
-              searchQuery && (
+              !isLoading && searchQuery && (
                 <div className="no-results-message">
                   No matches found. Try "Apple" or "TSLA".
                 </div>

@@ -36,7 +36,11 @@ module.exports = {
             //responds to frontend with success or error message 
             res.status(201).json({ 
                 message: 'User registered successfully',
-                userId: newUser._id
+                userId: newUser._id,
+                user: {
+                    email: newUser.email,
+                    availableCash: parseFloat(newUser.availableCash.toString())
+                }
             });
         } catch (err) {
             console.error('Error registering user: ', err);
@@ -70,6 +74,10 @@ module.exports = {
             //return token to clien
             res.status(200).json({
                 message: 'Login successful',
+                user: {
+                    email: user.email,
+                    availableCash: parseFloat(user.availableCash.toString())
+                }
             });
     
         }catch (err) {
@@ -87,5 +95,23 @@ module.exports = {
             res.clearCookie('connect.sid'); // clears the session cookie
             res.status(200).json({ message: 'Logout successful' });
         });
+    },
+
+    getMe: async function(req, res) {
+        try {
+            const user = await User.findById(req.user.id);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+            res.status(200).json({
+                user: {
+                    email: user.email,
+                    availableCash: parseFloat(user.availableCash.toString())
+                }
+            });
+        } catch (err) {
+            console.error('Error fetching user info:', err);
+            res.status(500).json({ message: 'Server error' });
+        }
     }
 };

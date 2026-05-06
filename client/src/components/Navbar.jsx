@@ -1,35 +1,33 @@
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import logo from '../assets/logo-ips.png'
+import apiClient from '../api/apiClient'
+import { AuthContext } from '../context/AuthContext'
 
-/**
- * Navbar with two variants:
- *   variant="main"  → IPS Logo + Logout         (Dashboard)
- *   variant="back"  → Back button + Balance     (Search, Asset)
- */
-function Navbar({ variant = 'main', balance = 0 }) {
+function Navbar({ variant = 'main' }) {
   const navigate = useNavigate()
   const [isLoggingOut, setIsLoggingOut] = useState(false)
 
-  const handleLogout = () => {
+  //read user's data from global memory
+  const { user, logout } = useContext(AuthContext)
+
+  const handleLogout = async () => {
     setIsLoggingOut(true)
-    console.log('Logging out...')
-
-    setTimeout(() => {
-        console.log("Mock logout successful! Session destroyed.")
-        setIsLoggingOut(false)
+    try {
+        await apiClient.post('/api/users/logout')
+        logout()
         navigate('/login')
-    }, 1000)
-
-    /*
-    // TODO: session logic 
-    await axios.post('/api/users/logout', {}, { withCredentials: true })
-    navigate('/login')
-    */
+    } catch (error) {
+        logout()
+        navigate('/login')
+    } finally {
+        setIsLoggingOut(false)
+    }
   }
 
-  // Format balance: 100000 → "$100,000.00"
-  const formattedBalance = `$${balance.toLocaleString('en-US', {
+  //format the real balance, fallback to 0 if loading
+  const currentBalance = user?.availableCash || 0
+  const formattedBalance = `$${currentBalance.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`

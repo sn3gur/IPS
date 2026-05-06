@@ -1,3 +1,4 @@
+@use "sass:color";
 @use '../styles/variables' as *;
 @use '../styles/mixins' as *;
 
@@ -149,13 +150,13 @@
     .btn-buy {
       @include button-primary;
       background-color: $color-profit;
-      &:hover { background-color: darken($color-profit, 5%); }
+      &:hover { background-color: color.adjust($color-profit, $lightness: -5%); }
     }
 
     .btn-sell {
       @include button-primary;
       background-color: $color-loss;
-      &:hover { background-color: darken($color-loss, 5%); }
+      &:hover { background-color: color.adjust($color-loss, $lightness: -5%); }
     }
   }
 }

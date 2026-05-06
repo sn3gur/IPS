@@ -16,8 +16,9 @@ function TradingViewWidget({ symbol = 'AAPL' }) {
 
       widgetContainer.replaceChildren();
 
-      // Check if the symbol already has an exchange prefix
-      const formattedSymbol = symbol.includes(':') ? symbol : `NASDAQ:${symbol}`;
+      // CLEANUP: Don't force NASDAQ. TradingView is smart enough to find the primary exchange 
+      // for most tickers (like BABA on NYSE or AAPL on NASDAQ) if we just pass the symbol.
+      const formattedSymbol = symbol;
 
       const script = document.createElement("script");
       script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";

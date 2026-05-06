@@ -17,13 +17,6 @@ const connectDB = require('./config/db');
 
 const app = express();
 
-/* middleware */
-app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000', // React app URL
-    credentials: true // allow cookies to be sent
-})); //communtication between React and Express
-app.use(express.json());
-
 app.use(session({
     secret: process.env.SESSION_SECRET || 'default-secret-key', // secret key for signing session ID cookies
     resave: false, // don't save session if unmodified
@@ -38,6 +31,13 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
 }));
+
+/* middleware */
+app.use(cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // React app URL
+    credentials: true // allow cookies to be sent
+})); //communtication between React and Express
+app.use(express.json());
 
 /* routes */
 app.use("/api/stocks", require("./routes/stocks")); // connects stock routes to server
