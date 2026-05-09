@@ -54,7 +54,8 @@ app.use(session({
     }),
     cookie:{
         secure: process.env.NODE_ENV === 'production', // only send cookie over HTTPS in production
-        httpOnly: true, // prevent client-side JavaScript from accessing the cookie
+        httpOnly: true, // prevent client side js from accessing the cookie
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // for cross-domain cookies
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
 }));
