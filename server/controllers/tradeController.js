@@ -127,26 +127,90 @@ module.exports = {
     },
 
     //get portfolio
-    getPortfolio: async function(req, res) {
-        try {
-            const portfolio = await Transaction.aggregate([
-                { $match: { userId: new mongoose.Types.ObjectId(req.user.id) } },
-                { $group: {
-                    _id: '$ticker',
-                    totalShares: { $sum: {
-                        $cond: [
-                            { $eq: ['$type', 'BUY'] }, '$quantity', { $multiply: ['$quantity', -1] }
-                        ] } 
-                    } 
-                }},
-                { $match: { totalShares: { $gt: 0 } } }
-            ]);
-            res.status(200).json({ portfolio: portfolio});
-        } catch (err) {
-            console.error('Error fetching portfolio:', err);
-            res.status(500).json({ message: 'Server error compiling portfolio' });
+getPortfolio: async function(req, res) {
+    try {
+        const userId = req.user.id;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
         }
-    },
+
+        const holdings = await Transaction.aggregate([
+            { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+            {
+                $group: {
+                    _id: '$ticker',
+                    totalShares: {
+                        $sum: {
+                            $cond: [
+                                { $eq: ['$type', 'BUY'] },
+                                '$quantity',
+                                { $multiply: ['$quantity', -1] }
+                            ]
+                        }
+                    },
+                    totalBuyQuantity: {
+                        $sum: {
+                            $cond: [{ $eq: ['$type', 'BUY'] }, '$quantity', 0]
+                        }
+                    },
+                    totalBuyCost: {
+                        $sum: {
+                            $cond: [
+                                { $eq: ['$type', 'BUY'] },
+                                { $multiply: ['$quantity', { $toDouble: '$executionPrice' }] },
+                                0
+                            ]
+                        }
+                    }
+                }
+            },
+            { $match: { totalShares: { $gt: 0 } } }
+        ]);
+
+        const enrichedHoldings = await Promise.all(
+            holdings.map(async (holding) => {
+                const ticker = holding._id;
+                const priceResponse = await axios.get(
+                    `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${process.env.FINNHUB_API_KEY}`
+                );
+
+                const currentPrice = priceResponse.data.c || 0;
+                const buyPrice = holding.totalBuyCost / holding.totalBuyQuantity;
+                const currentValue = holding.totalShares * currentPrice;
+                const costBasis = holding.totalShares * buyPrice;
+                const profitLoss = currentValue - costBasis;
+
+                return {
+                    ticker,
+                    shares: holding.totalShares,
+                    buyPrice,
+                    currentPrice,
+                    currentValue,
+                    profitLoss
+                };
+            })
+        );
+
+        const availableCash = parseFloat(user.availableCash.toString());
+        const holdingsValue = enrichedHoldings.reduce((sum, stock) => sum + stock.currentValue, 0);
+        const totalProfitLoss = enrichedHoldings.reduce((sum, stock) => sum + stock.profitLoss, 0);
+
+        res.status(200).json({
+            availableCash,
+            totalValue: availableCash + holdingsValue,
+            holdingsValue,
+            totalProfitLoss,
+            stockCount: enrichedHoldings.length,
+            holdings: enrichedHoldings
+        });
+    } catch (err) {
+        console.error('Error fetching portfolio:', err);
+        res.status(500).json({ message: 'Server error compiling portfolio' });
+    }
+},
+
 
     //reset poortfolio
     resetPortfolio: async function(req, res) {

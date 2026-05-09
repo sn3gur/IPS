@@ -44,9 +44,20 @@ function DashboardPage() {
         <section className="dashboard-section">
           <div className="dashboard-section-header">
             <h2 className="dashboard-section-title">Dashboard</h2>
-            <button onClick={toggleViewMode} className="dashboard-switch-mode">
-              {viewMode === 'chart' ? 'Show Market Data' : 'Show Trading Chart'}
-            </button>
+        
+
+              <div className="dashboard-actions">
+                <button onClick={toggleViewMode} className="dashboard-switch-mode">
+                  {viewMode === 'chart' ? 'Show Market Data' : 'Show Trading Chart'}
+                </button>
+
+                <button onClick={() => navigate('/Portfolio')} className="dashboard-switch-mode">
+                  Portfolio
+                </button>
+              </div>
+
+
+            
           </div>
 
           <div className="dashboard-widget">

@@ -11,6 +11,12 @@ export const searchStocksByQuery = async (query) => {
   return response.data;
 };
 
+export const getPortfolio = async () => {
+  const response = await apiClient.get('/api/trades/portfolio');
+  return response.data;
+};
+
+
 export const executeBuyOrder = async (ticker, quantity) => {
   const response = await apiClient.post('/api/trades/buy', {
     ticker: ticker,
