@@ -12,7 +12,7 @@ const express = require('express'); // web framework (handles HTTP requests)
 const cors = require('cors');   // allows React to connect
 const session = require('express-session'); // manages user sessions 
 const MongoStore = require('connect-mongo'); // stores session data in MongoDB
-const helmet = require('helmet');
+
 
 const connectDB = require('./config/db');
 
