@@ -18,6 +18,7 @@ const helmet = require('helmet'); // security middleware to set HTTP headers
 const connectDB = require('./config/db');
 
 const app = express();
+app.set('trust proxy', 1);
 
 app.use(
   helmet({
@@ -28,7 +29,7 @@ app.use(
         styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"], // Fixes Google Fonts
         fontSrc: ["'self'", "fonts.gstatic.com"],
         imgSrc: ["'self'", "data:", "https:"],
-        connectSrc: ["'self'", "https://ips-backend-hfp6.onrender.com", "https://ips-frontend-hfp6.onrender.com"] 
+        connectSrc: ["'self'", "https://ips-lbcs.onrender.com", "https://ips-frontend-hfp6.onrender.com"] 
       },
     },
   })
