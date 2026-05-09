@@ -1,21 +1,8 @@
 @use 'variables' as *;
 
 // =============================================
-//  Mixins — wiederverwendbare Style-Patterns
+//  mixins
 // =============================================
-
-
-// ---------- RESPONSIVE BREAKPOINTS ----------
-// Mobile First: Standard-Styles gelten für Mobile,
-// diese Mixins überschreiben für größere Screens.
-//
-// Verwendung:
-//   .my-class {
-//     padding: $space-2;       // Mobile
-//     @include md {
-//       padding: $space-4;     // ab Tablet
-//     }
-//   }
 
 @mixin sm {
   @media (min-width: $breakpoint-sm) { @content; }
@@ -36,21 +23,20 @@
 
 // ---------- LAYOUT ----------
 
-// Zentriert Inhalte horizontal + vertikal
+// Centers content horizontaly + vertikaly
 @mixin flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-// Flexbox mit Space-Between (z.B. für Navbar)
 @mixin flex-between {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-// Container mit max-width für Desktop
+// Container with max-width for desktop
 @mixin container {
   width: 100%;
   max-width: 1200px;
