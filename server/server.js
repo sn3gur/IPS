@@ -17,6 +17,31 @@ const connectDB = require('./config/db');
 
 const app = express();
 
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // Fixes the 'eval' error
+        styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"], // Fixes Google Fonts
+        fontSrc: ["'self'", "fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'", "https://ips-backend-hfp6.onrender.com", "https://ips-frontend-hfp6.onrender.com"] 
+      },
+    },
+  })
+);
+
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? 'https://ips-frontend-hfp6.onrender.com' 
+    : 'http://localhost:5173',
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+};
+
+app.use(cors(corsOptions));
+
 app.use(session({
     secret: process.env.SESSION_SECRET || 'default-secret-key', // secret key for signing session ID cookies
     resave: false, // don't save session if unmodified
@@ -33,10 +58,7 @@ app.use(session({
 }));
 
 /* middleware */
-app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // React app URL
-    credentials: true // allow cookies to be sent
-})); //communtication between React and Express
+
 app.use(express.json());
 
 /* routes */
@@ -55,6 +77,11 @@ connectDB();
 
 /* start server */
 const PORT = process.env.PORT || 5050;
+const corsOptions = {
+  origin: 'https://ips-frontend-hfp6.onrender.com', 
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+};
 app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
     console.log(`Trade API : http://localhost:${PORT}/api/trades/portfolio`);
