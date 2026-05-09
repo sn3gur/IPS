@@ -42,6 +42,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use(express.json());
+
 app.use(session({
     secret: process.env.SESSION_SECRET || 'default-secret-key', // secret key for signing session ID cookies
     resave: false, // don't save session if unmodified
@@ -56,10 +58,6 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
 }));
-
-/* middleware */
-
-app.use(express.json());
 
 /* routes */
 app.use("/api/stocks", require("./routes/stocks")); // connects stock routes to server
@@ -77,11 +75,6 @@ connectDB();
 
 /* start server */
 const PORT = process.env.PORT || 5050;
-const corsOptions = {
-  origin: 'https://ips-frontend-hfp6.onrender.com', 
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-};
 app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
     console.log(`Trade API : http://localhost:${PORT}/api/trades/portfolio`);
