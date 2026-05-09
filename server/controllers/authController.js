@@ -33,6 +33,22 @@ module.exports = {
 
             req.session.userId = newUser._id; // store user ID in session for authentication
 
+            req.session.save((err) => {
+                if (err) {
+                    console.error('Session save error:', err);
+                    return res.status(500).json({ message: 'Session save failed' });
+                }
+                
+                // ONLY send the response after the session is safely in MongoDB
+                return res.status(200).json({
+                    message: 'Login successful',
+                    user: {
+                        email: user.email,
+                        availableCash: parseFloat(user.availableCash.toString())
+                    }
+                });
+            });         
+
             //responds to frontend with success or error message 
             res.status(201).json({ 
                 message: 'User registered successfully',
