@@ -9,6 +9,7 @@ module.exports = {
         try {
             const userId = req.user.id; 
             let ticker = req.body.ticker.toUpperCase().trim();
+            console.log(`Processing BUY for ${ticker} by user ${userId}`);
         
             // Strip exchange prefix if present 
             if (ticker.includes(':')) {
@@ -33,15 +34,16 @@ module.exports = {
                 return res.status(404).json({ message: 'User not found' });
             }
 
-            if(user.availableCash < totalCost) {
-                return res.status(400).json({ message: 'Insufficient funds', cash : user.availableCash, cost: totalCost });
+            const currentCash = parseFloat(user.availableCash.toString());
+            if(currentCash < totalCost) {
+                return res.status(400).json({ message: 'Insufficient funds', cash : currentCash, cost: totalCost });
             }
 
-            user.availableCash -= totalCost;
+            user.availableCash = currentCash - totalCost;
             await user.save();
 
             const newTransaction = new Transaction({
-                userId: req.user.id,
+                userId: userId,
                 ticker: ticker,
                 type: 'BUY',
                 quantity: quantity,
@@ -51,7 +53,7 @@ module.exports = {
 
             res.status(201).json({
                 message: `Bought ${quantity} shares of ${ticker} at $${executionPrice}`,
-                newBalance: user.availableCash,
+                newBalance: parseFloat(user.availableCash.toString()),
                 transaction: newTransaction
             });
         } catch (err) {
@@ -65,6 +67,7 @@ module.exports = {
         try {
             const userId = req.user.id;
             let ticker = req.body.ticker.toUpperCase().trim();
+            console.log(`Processing SELL for ${ticker} by user ${userId}`);
 
             // strip exchange prefix if present
             if (ticker.includes(':')) {
@@ -77,8 +80,11 @@ module.exports = {
                 return res.status(400).json({ message: 'Invalid parameters' });
             }
 
+            // Important: userId needs to be cast to ObjectId for aggregate
+            const userObjectId = new mongoose.Types.ObjectId(userId);
+
             const portfolio = await Transaction.aggregate([
-                { $match: { userId: new mongoose.Types.ObjectId(userId), ticker: ticker } },
+                { $match: { userId: userObjectId, ticker: ticker } },
                 { $group: {
                     _id: '$ticker',
                     totalShares: { $sum: { 
@@ -88,6 +94,8 @@ module.exports = {
             ]);
 
             const ownedShares = portfolio.length > 0 ? portfolio[0].totalShares : 0;
+            console.log(`User ${userId} owns ${ownedShares} shares of ${ticker}`);
+
             if (ownedShares < quantity) {
                 return res.status(400).json({ message: `Insufficient shares. You only own ${ownedShares} shares of ${ticker}.` });
             }
@@ -102,7 +110,8 @@ module.exports = {
             const totalRevenue = executionPrice * quantity;
             const user = await User.findById(userId);
             
-            user.availableCash += totalRevenue;
+            const currentCash = parseFloat(user.availableCash.toString());
+            user.availableCash = currentCash + totalRevenue;
             await user.save();
 
             const newTransaction = new Transaction({
@@ -116,7 +125,7 @@ module.exports = {
 
             res.status(201).json({
                 message: `Successfully sold ${quantity} shares of ${ticker} at $${executionPrice}`,
-                newBalance: user.availableCash,
+                newBalance: parseFloat(user.availableCash.toString()),
                 transaction: newTransaction
             });
 
