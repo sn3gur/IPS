@@ -2,7 +2,6 @@
 
 // =============================================
 //  Base Styles & Reset
-//  Globale Defaults — gilt für die gesamte App
 // =============================================
 
 
@@ -33,7 +32,7 @@ body {
   color: $color-text;
   background-color: $color-bg;
 
-  // Bessere Schrift-Rendering
+  // better for rendering
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -70,11 +69,3 @@ button {
 input, textarea, select {
   font-family: inherit;
 }
-
-
-// ---------- DEBUG HELPERS ----------
-// Temporär! Klasse "debug" auf Element setzen, um Bounds zu sehen.
-// Später per Suchen+Ersetzen rausnehmen.
-.debug       { border: 1px solid red; }
-.debug-blue  { border: 1px solid blue; }
-.debug-green { border: 1px solid green; }

@@ -1,0 +1,244 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+
+.dashboard-page {
+  min-height: 100vh;
+  background-color: $color-bg;
+}
+
+.dashboard-content {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: $space-4 $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  @include md {
+    padding: $space-8 $space-6;
+    gap: $space-6;
+  }
+}
+
+
+// ---------- SEARCH BAR ----------
+
+.search-bar {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+
+  @include sm {
+    flex-direction: row;
+  }
+}
+
+.search-bar-input {
+  @include input-base;
+  flex: 1;
+}
+
+.search-bar-button {
+  @include button-primary;
+  border: 1px solid $color-brand;
+  padding: $space-2 $space-4;
+
+  @include sm {
+    padding: $space-3 $space-6;
+  }
+
+  &:hover {
+    border-color: $color-brand-hover;
+  }
+}
+
+.portfolio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: $space-4;
+
+  h1 {
+    margin: 0;
+    font-size: $font-2xl;
+    font-weight: $weight-bold;
+    color: $color-text;
+  }
+
+  p {
+    margin: $space-2 0 0;
+    color: $color-text-secondary;
+    font-size: $font-base;
+  }
+}
+
+.portfolio-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-4;
+
+  @include sm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include lg {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.portfolio-stat-card {
+  @include card;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  span {
+    color: $color-text-secondary;
+    font-size: $font-sm;
+  }
+
+  strong {
+    color: $color-text;
+    font-size: $font-xl;
+    font-weight: $weight-semibold;
+  }
+
+  small {
+    color: $color-text-muted;
+    font-size: $font-xs;
+  }
+}
+
+.portfolio-panel {
+  @include card;
+}
+
+.portfolio-panel-header {
+  margin-bottom: $space-4;
+
+  h2 {
+    margin: 0;
+    font-size: $font-lg;
+    font-weight: $weight-semibold;
+    color: $color-text;
+  }
+
+  p {
+    margin: $space-1 0 0;
+    color: $color-text-secondary;
+    font-size: $font-sm;
+  }
+}
+
+.holdings-list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.holding-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-3;
+  padding: $space-4;
+  background-color: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-base;
+
+  @include md {
+    grid-template-columns: 1.5fr repeat(4, 1fr);
+    align-items: center;
+  }
+}
+
+.holding-main {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+
+  strong {
+    display: block;
+    color: $color-text;
+    font-weight: $weight-semibold;
+  }
+
+  span {
+    display: block;
+    margin-top: $space-1;
+    color: $color-text-muted;
+    font-size: $font-xs;
+  }
+}
+
+.holding-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-full;
+  background-color: $color-brand;
+  color: $color-text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: $weight-bold;
+}
+
+.holding-metric {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-3;
+
+  @include md {
+    display: block;
+    text-align: right;
+  }
+
+  span {
+    color: $color-text-secondary;
+    font-size: $font-xs;
+  }
+
+  strong {
+    display: block;
+    margin-top: $space-1;
+    color: $color-text;
+    font-size: $font-sm;
+    font-weight: $weight-medium;
+  }
+}
+
+.positive {
+  color: $color-profit !important;
+}
+
+.negative {
+  color: $color-loss !important;
+}
+
+.portfolio-empty {
+  margin: 0;
+  padding: $space-6 0;
+  text-align: center;
+  color: $color-text-secondary;
+}
+.portfolio-page {
+  min-height: 100vh;
+  background-color: $color-bg;
+}
+
+.portfolio-content {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: $space-4 $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  @include md {
+    padding: $space-8 $space-6;
+    gap: $space-6;
+  }
+}

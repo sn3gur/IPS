@@ -73,6 +73,13 @@
   gap: $space-2;
 }
 
+.dashboard-actions {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+
 .dashboard-section-title {
   font-size: $font-md;
   font-weight: $weight-medium;
