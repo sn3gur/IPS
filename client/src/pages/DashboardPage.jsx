@@ -23,7 +23,7 @@ function DashboardPage() {
 
   return (
     <div className="dashboard-page">
-      <Navbar variant="main" />
+      <Navbar variant="dash" />
 
       <main className="dashboard-content">
         {/* Search Bar */}

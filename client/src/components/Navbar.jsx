@@ -54,6 +54,20 @@ function Navbar({ variant = 'main' }) {
           </div>
         </>
       )}
+      {variant === 'dash' && (
+        <>
+          <button onClick={() => navigate(-1)} className="navbar-back">
+            <span className="navbar-back-arrow">←</span> Back
+          </button>
+          <div className="navbar-balance">
+            <span className="navbar-balance-label">Balance</span>
+            <span className="navbar-balance-value">{formattedBalance}</span>
+          </div>
+          <button onClick={handleLogout} className="navbar-logout" disabled={isLoggingOut}>
+            {isLoggingOut ? 'Logging out...' : 'Logout'}
+          </button>
+        </>
+      )}
     </nav>
   )
 }
